@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1039353291268",
+    "firebase_url": "https://lersais-mhealth-lab1.firebaseio.com",
+    "project_id": "lersais-mhealth-lab1",
+    "storage_bucket": "lersais-mhealth-lab1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039353291268:android:9171d4af77690f63",
+        "android_client_info": {
+          "package_name": "edu.pitt.lersais.mhealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039353291268-bsreht5tev61h8qkms4pjmftqtd450vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuuTKOOyVDmFEbR9CeT5_RG9QHJfldd40"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
