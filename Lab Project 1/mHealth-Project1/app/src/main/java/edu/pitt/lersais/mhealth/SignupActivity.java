@@ -67,5 +67,19 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         // 4) call related register method provided by Firebase Authentication
         // 5) close the progress dialog
 
+        String email = mEmailEditText.getText().toString();
+        String password = mPasswordEditText.getText().toString();
+        String confirmPassword = mConfirmPasswordEditText.getText().toString();
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                || password.isEmpty() || !password.equals(confirmPassword)) {
+            return;
+        }
+
+        showProgressDialog();
+
+        // @link https://firebase.google.com/docs/auth/android/start#sign_up_new_users
+        mAuth.createUserWithEmailAndPassword(email, password);
+        hideProgressDialog();
     }
 }

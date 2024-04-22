@@ -64,6 +64,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         // 4) call related authentication method provided by Firebase Authentication
         // 5) close the progress dialog
 
+        String email = mEmailEditText.getText().toString();
+        String password = mPasswordEditText.getText().toString();
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                || password.isEmpty()) {
+            return;
+        }
+
+        showProgressDialog();
+        // @link https://firebase.google.com/docs/auth/android/start#sign_in_existing_users
+        mAuth.signInWithEmailAndPassword(email, password);
+        hideProgressDialog();
+
     }
 
 }
