@@ -17,10 +17,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- * The SettingActivity that is used to handle setting features such as email verification and
+ * The SettingActivity that is used to handle setting features such as email
+ * verification and
  * password reset.
  *
  * @author Haobing Huang and Runhua Xu.
+ * @author Lujia Cheng and Yongxiang Zhang
+ * @version 2024.04.20
  */
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,7 +36,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private EditText editTextCurrentPwd;
     private EditText editTextNewPwd;
     private EditText editTextConfirmPwd;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,12 +93,57 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private void resetPasswordByInput() {
         // TODO: Task 4.1 reset password by user's input
         // Tips: check the usage of related method provided by Firebase Authentication
+        editTextCurrentPwd = findViewById(R.id.setting_edit_current_pwd);
+        editTextNewPwd = findViewById(R.id.setting_edit_new_pwd);
+        editTextConfirmPwd = findViewById(R.id.setting_edit_confirm_pwd);
+
+        String currentPwd = editTextCurrentPwd.getText().toString();
+        final String newPwd = editTextNewPwd.getText().toString();
+        String confirmPwd = editTextConfirmPwd.getText().toString();
+
+        if (!newPwd.equals(confirmPwd)) {
+            Toast.makeText(SettingActivity.this, "New password and confirm password do not match.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(currentUser.getEmail(), currentPwd)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            currentUser.updatePassword(newPwd)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(SettingActivity.this, "Password is updated.",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(SettingActivity.this, "Current password is incorrect.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
     }
 
     private void resetPasswordByEmail() {
         // TODO: Task 4.2 reset password by user's email
         // Tips: check the usage of related method provided by Firebase Authentication
+        mAuth.sendPasswordResetEmail(currentUser.getEmail())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SettingActivity.this, "Reset password email is sent.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
     }
 }

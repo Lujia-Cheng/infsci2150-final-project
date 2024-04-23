@@ -38,6 +38,8 @@ import edu.pitt.lersais.mhealth.util.DownloadImageTask;
  * The MainActivity.
  *
  * @author Haobing Huang and Runhua Xu.
+ * @author Lujia Cheng and Yongxiang Zhang
+ * @version 2024.04.20
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -100,9 +102,8 @@ public class MainActivity extends AppCompatActivity {
         // Intent intent = new Intent(MainActivity.this, MedicalRecordActivity.class);
         // startActivity(intent);
         // overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-        // BEGIN your code here
-
+        startActivity(new Intent(this, ProfileActivity.class)); // fixme check if this is the intended view
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     private void signOut() {
@@ -110,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         // Tips:
         // 1) call the sign out method provided by Firebase Authentication
         // 2) jump to the login view
+        mAuth.signOut();
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     private void initializeToolbar() {

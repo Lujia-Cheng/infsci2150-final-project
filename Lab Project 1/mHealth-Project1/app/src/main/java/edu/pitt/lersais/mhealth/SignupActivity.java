@@ -2,17 +2,24 @@ package edu.pitt.lersais.mhealth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
 
 /**
  * The SignupActivity is used to handle registration, email-password registration.
  *
  * @author Haobing Huang and Runhua Xu.
+ * @author Lujia Cheng and Yongxiang Zhang
+ * @version 2024.04.20
  */
 
 public class SignupActivity extends BaseActivity implements View.OnClickListener {
@@ -79,7 +86,22 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         showProgressDialog();
 
         // @link https://firebase.google.com/docs/auth/android/start#sign_up_new_users
-        mAuth.createUserWithEmailAndPassword(email, password);
-        hideProgressDialog();
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
+                new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "create user with email success");
+
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                        } else {
+                            Log.w(TAG, "create user with email failure", task.getException());
+                            Toast.makeText(getBaseContext(), "Authentication Failed.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        hideProgressDialog();
+                    }
+                });
     }
 }

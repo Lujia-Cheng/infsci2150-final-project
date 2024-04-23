@@ -2,9 +2,15 @@ package edu.pitt.lersais.mhealth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -12,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
  * The LoginActivity is used to handle login authentication, email password authentication.
  *
  * @author Haobing Huang and Runhua Xu.
+ * @author Lujia Cheng and Yongxiang Zhang
+ * @version 2024.04.20
  */
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -46,8 +54,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         int i = v.getId();
         if (i == R.id.email_sign_in_button) {
             login();
-        }
-        else if (i == R.id.link_signup) {
+        } else if (i == R.id.link_signup) {
             Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
             startActivityForResult(intent, REQUEST_SIGNUP);
             finish();
@@ -74,9 +81,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         showProgressDialog();
         // @link https://firebase.google.com/docs/auth/android/start#sign_in_existing_users
-        mAuth.signInWithEmailAndPassword(email, password);
-        hideProgressDialog();
-
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "sign in with email success");
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                } else {
+                    Log.w(TAG, "sign in with email failure");
+                    Toast.makeText(getBaseContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
+                }
+                hideProgressDialog();
+            }
+        });
     }
 
 }
