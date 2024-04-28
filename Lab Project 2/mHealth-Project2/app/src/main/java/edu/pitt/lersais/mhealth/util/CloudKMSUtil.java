@@ -56,7 +56,7 @@ public class CloudKMSUtil {
         //TODO: Task 1.2
         // BEGIN
 
-        return null;
+
         // END
     }
 
@@ -65,7 +65,7 @@ public class CloudKMSUtil {
         // TODO: Task 1.2
         // BEGIN
 
-        return null;
+
         // END
     }
 }

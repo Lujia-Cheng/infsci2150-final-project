@@ -40,6 +40,6 @@
     <string name="expandable_menu_logout">Logout</string>
     <string name="profile_title">Profile Information</string>
     <string name="medical_record_title">Medical Record Demo</string>
-    <string name="medical_record_title_edit">Medical Record Edit</string>
+    <string name="medical_record_title_edit">Medical Record</string>
     <string name="setting_title">Settings</string>
 </resources>

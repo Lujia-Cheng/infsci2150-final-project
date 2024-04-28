@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         // Intent intent = new Intent(MainActivity.this, MedicalRecordActivity.class);
         // startActivity(intent);
         // overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-        startActivity(new Intent(this, ProfileActivity.class)); // fixme check if this is the intended view
+        startActivity(new Intent(this, MedicalRecordActivity.class));
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 

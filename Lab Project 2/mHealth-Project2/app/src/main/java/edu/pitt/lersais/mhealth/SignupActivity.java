@@ -147,8 +147,11 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         // TODO: TASK 1.1
         // TODO: create a thread to initialize a key using Google Cloud KMS
         // BEGIN
-
-
+        // @link https://cloud.google.com/kms/docs/create-key#create-symmetric
+        CloudKMS kms = CloudKMSUtil.getInstance().createAuthorizedClient(getApplicationContext());
+        CryptoKey key = new CryptoKey();
+        key.setPurpose("ENCRYPT_DECRYPT");
+        kms.projects().locations().keyRings().cryptoKeys().create(Constant.KMS_PROJECT_ID, Constant.KMS_LOCATION, Constant.KMS_KEY_RING_ID, key).execute();        
         // END
     }
 }
